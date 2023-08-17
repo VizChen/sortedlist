@@ -6,6 +6,8 @@ A Go library to implement sorted list(This is an implementation of python sorted
 |------|-----|
 |Add|O(log(n))|
 
-- [ ] Implement sorted list(uint32). 
+The time complexity of this algorithms is still O(n) instead of O(log(n)).
+
+- [ ] Implement sorted list(int). 
 - [ ] support generic type.
 - [ ] ...
