@@ -16,6 +16,7 @@ func New() *SortedList {
 	return &SortedList{
 		lists: [][]int{},
 		maxes: []int{},
+		len: 0,
 	}
 }
 
@@ -26,7 +27,7 @@ func (s *SortedList) Add(v int) {
 		s.lists = append(s.lists, []int{v})
 		return
 	}
-	pos := sort.SearchInts(s.maxes, v)
+    pos := sort.SearchInts(s.maxes, v)
 	if pos == len(s.maxes) {
 		pos -= 1
 		s.lists[pos] = append(s.lists[pos], v)
@@ -35,6 +36,7 @@ func (s *SortedList) Add(v int) {
 		idx := sort.SearchInts(s.lists[pos], v)
 		if idx != len(s.lists[pos]) {
 			s.lists[pos] = append(s.lists[pos][:idx+1], s.lists[pos][idx:]...)
+            s.lists[pos][idx] = v
 		} else {
 			s.lists[pos] = append(s.lists[pos], v)
 		}
@@ -44,17 +46,18 @@ func (s *SortedList) Add(v int) {
 
 func (s *SortedList) expand(pos int) {
 	if len(s.lists[pos]) > (defaultLoadFactor << 1) {
-		curr_list := s.lists[pos]
-		half := curr_list[defaultLoadFactor:]
+        half := append([]int{}, s.lists[pos][defaultLoadFactor:]...)
 		s.lists[pos] = s.lists[pos][:defaultLoadFactor]
 		s.maxes[pos] = s.lists[pos][len(s.lists[pos])-1]
 
-		if pos == len(s.lists) {
+		if pos == len(s.lists) - 1 {
 			s.lists = append(s.lists, half)
 			s.maxes = append(s.maxes, half[len(half)-1])
 		} else {
 			s.lists = append(s.lists[:pos+1], s.lists[pos:]...)
+            s.lists[pos+1] = half
 			s.maxes = append(s.maxes[:pos+1], s.maxes[pos:]...)
+            s.maxes[pos+1] = half[len(half)-1]
 		}
 	}
 }
