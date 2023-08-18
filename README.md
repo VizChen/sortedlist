@@ -6,3 +6,4 @@ A Go library to implement sorted list(This is an implementation of [python sorte
 - [x] Support generic type.
 - [x] Add test cases.
 - [ ] Add Remove operation.
+- [ ] Support customized compare function.
